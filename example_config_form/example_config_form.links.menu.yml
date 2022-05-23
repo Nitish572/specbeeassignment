@@ -1,0 +1,6 @@
+example_config_form.admin:
+  title: 'Country & Timezone Configuration Form'
+  description: 'Country & Timezone Configuration settings'
+  parent: system.admin_config_development
+  route_name: example_config_form.settings
+  weight: 100

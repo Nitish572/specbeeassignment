@@ -1,0 +1,3 @@
+services:
+  example_config_form.customtime:
+    class: Drupal\example_config_form\CustomTime

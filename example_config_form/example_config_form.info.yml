@@ -1,0 +1,5 @@
+name: 'Example ConfigForm'
+type: module
+description: 'Configure Country & Timezone.'
+package: custom
+core_version_requirement: ^8 || ^9
