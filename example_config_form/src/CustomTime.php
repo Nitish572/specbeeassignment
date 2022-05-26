@@ -3,30 +3,43 @@
 namespace Drupal\example_config_form;
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class CustomTime.
  */
 class CustomTime {
 
-  function get_date_on_given_timezone() {
+  /**
+   * Drupal\Core\Config\ConfigFactoryInterface definition.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
-    $current_time = new DrupalDateTime('now', 'UTC');
-    echo($current_time);
-    
-    $selectedTimezone = \Drupal::config('example_config_form.settings')->get('timezone.default');
-    echo($current_time); die();
-    $date_time = new DrupalDateTime();
-    
-    $timezone_offset = $selectedTimezone->getOffset($date_time->getPhpDateTime());
-    
-    $time_interval = \DateInterval::createFromDateString($timezone_offset . 'seconds');
-    
-    $current_time->add($time_interval);
-    
-    $result = $current_time->format('D-M-Y H:i:s');
-	
-	return $result;
+  /**
+   *
+   * class constructor
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   An instance of ConfigFactoryInterface.
+   *
+   */
+
+  public function __construct(ConfigFactoryInterface $config_factory) {
+    $this->configFactory = $config_factory;
   }
 
+  /**
+   * function to return data & time.
+   */
+  public function get_date_on_given_timezone() {
+
+    $config = $this->configFactory->get('example_config_form.settings');
+    $user_selected_timezone = $config->get('timezone.default');
+    $date = new DrupalDateTime("now", new \DateTimeZone($user_selected_timezone));
+    return $date->format('jS M Y - H:i A');
+
+  }
+  
 }
